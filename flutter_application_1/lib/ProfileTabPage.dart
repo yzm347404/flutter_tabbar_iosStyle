@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+
 // 我的 Tab
 class ProfileTabPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('我的'),
-      ),
+      appBar: AppBar(title: Text('我的')),
       body: ListView(
         children: [
           ListTile(
@@ -18,12 +17,23 @@ class ProfileTabPage extends StatelessWidget {
             subtitle: Text('个人资料'),
             trailing: Icon(Icons.arrow_forward),
             onTap: () {
-              Navigator.push(
+              /*获取根 Navigator
+              final rootNavigator = Navigator.of(context);
+              获取最顶层的 Navigator
+              final rootNavigator = Navigator.of(context, rootNavigator: true);
+              */
+              //直接使用Navigator是tab中的Navigator
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => ProfileDetailPage(),
+              //   ),
+              // );
+              ///别名路由需要使用根navigator
+              Navigator.of(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => ProfileDetailPage(),
-                ),
-              );
+                rootNavigator: true,
+              ).pushNamed('/profileDetail');
             },
           ),
           Divider(),
@@ -34,9 +44,7 @@ class ProfileTabPage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => SettingsPage(),
-                ),
+                MaterialPageRoute(builder: (context) => SettingsPage()),
               );
             },
           ),
@@ -47,9 +55,7 @@ class ProfileTabPage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => FavoritesPage(),
-                ),
+                MaterialPageRoute(builder: (context) => FavoritesPage()),
               );
             },
           ),
@@ -61,34 +67,32 @@ class ProfileTabPage extends StatelessWidget {
 
 // 个人资料详情
 class ProfileDetailPage extends StatelessWidget {
+  const ProfileDetailPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('个人资料'),
-      ),
-      body: Center(
-        child: Text('个人资料详情页'),
-      ),
+      appBar: AppBar(title: Text('个人资料')),
+      body: Center(child: Text('个人资料详情页')),
     );
   }
+}
+
+class ProfileInfo {
+  String? name;
 }
 
 // 设置页面
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // 获取参数
+    final args = ModalRoute.of(context)!.settings.arguments as ProfileInfo;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('设置'),
-      ),
+      appBar: AppBar(title: Text('设置')),
       body: ListView(
         children: [
-          SwitchListTile(
-            title: Text('通知'),
-            value: true,
-            onChanged: (value) {},
-          ),
+          SwitchListTile(title: Text('通知'), value: true, onChanged: (value) {}),
           SwitchListTile(
             title: Text('夜间模式'),
             value: false,
@@ -99,9 +103,7 @@ class SettingsPage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => AboutPage(),
-                ),
+                MaterialPageRoute(builder: (context) => AboutPage()),
               );
             },
           ),
@@ -116,9 +118,7 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('关于'),
-      ),
+      appBar: AppBar(title: Text('关于')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -138,9 +138,7 @@ class FavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('收藏'),
-      ),
+      appBar: AppBar(title: Text('收藏')),
       body: ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {
@@ -165,18 +163,14 @@ class FavoritesPage extends StatelessWidget {
 // 收藏详情
 class FavoriteDetailPage extends StatelessWidget {
   final int index;
-  
+
   FavoriteDetailPage({required this.index});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('收藏详情'),
-      ),
-      body: Center(
-        child: Text('收藏项目 $index 的详情'),
-      ),
+      appBar: AppBar(title: Text('收藏详情')),
+      body: Center(child: Text('收藏项目 $index 的详情')),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 // 首页 Tab
 class HomeTabPage extends StatelessWidget {
+  const HomeTabPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +31,8 @@ class HomeTabPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => HomeDetailPage(itemId: index),
+                    //全屏对话框样式（iOS 从底部弹出） 相当于present
+                    fullscreenDialog: true
                   ),
                 );
               },

@@ -45,7 +45,7 @@ class ExploreTabPage extends StatelessWidget {
 class ExploreDetailPage extends StatelessWidget {
   final int index;
   
-  ExploreDetailPage({required this.index});
+  const ExploreDetailPage({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
