@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class SplashPage extends StatelessWidget {
   final VoidCallback onPressed;
@@ -23,6 +24,19 @@ class SplashPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30),
+            CachedNetworkImage(
+              imageUrl:
+                  'https://q6.itc.cn/q_70/images03/20240506/c85c6927124e4a0e807be8e91f07a87b.png',
+              width: 200,
+              height: 200,
+              placeholder: (context, url) => Container(
+                width: 200, // 必须显式设置宽度
+                height: 200, // 必须显式设置高度
+                color: Colors.grey[300],
+                child: Center(child: CircularProgressIndicator()),
+              ),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
             GestureDetector(
               onTap: onPressed,
               /*
@@ -67,7 +81,7 @@ class SplashPage extends StatelessWidget {
               Flutter这套资源匹配机制确实有点绕，主要就是围绕着“1倍图作为查找入口”这个核心逻辑
               */
               child: Image.asset(
-                'assets/images/icons/general_btn_previous_nor.png',   
+                'assets/images/icons/general_btn_previous_nor.png',
                 width: 180,
                 height: 50,
                 fit: BoxFit.contain,
