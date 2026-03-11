@@ -1,0 +1,24 @@
+{
+  "en": {
+    "app_title": "My App",
+    "welcome": "Welcome, {name}!",
+    "home": "Home",
+    "profile": "Profile",
+    "explore": "Explore",
+    "items": {
+      "one": "{} item",
+      "other": "{} items"
+    }
+  },
+  "zh": {
+    "app_title": "我的应用",
+    "welcome": "欢迎，{name}！",
+    "home": "首页",
+    "profile": "个人资料",
+    "explore": "探索",
+    "items": {
+      "one": "{}个项目",
+      "other": "{}个项目"
+    }
+  }
+}

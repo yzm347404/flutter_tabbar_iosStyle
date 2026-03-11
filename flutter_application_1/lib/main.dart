@@ -3,8 +3,25 @@ import './ExploreTabPage.dart';
 import './HomeTabPage.dart';
 import './ProfileTabPage.dart';
 import './Splash.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_application_1/MultiNetworkAssetLoader.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(
+    EasyLocalization(
+      child: MyApp(),
+      supportedLocales: const [Locale('en'), Locale('zh')],
+      path: 'assets/translations',
+      assetLoader: MultiNetworkAssetLoader(
+        baseUrl: 'https://api.example.com/translations/all',
+      ),
+      fallbackLocale: const Locale('en'),
+      startLocale: const Locale('en'),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -16,7 +33,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/profileDetail": (context) => ProfileDetailPage(),
         "/main": (context) => IOSTabBarDemo(),
-      },//配置路由
+      }, //配置路由
       title: 'iOS 风格 TabBar',
       theme: ThemeData(primarySwatch: Colors.blue),
       /*这个用于配置每个tab一个navigator，这个会跟initialroute冲突，
@@ -40,7 +57,7 @@ class IOSTabBarDemo extends StatefulWidget {
 
 class _IOSTabBarDemoState extends State<IOSTabBarDemo> {
   int _currentIndex = 0;
-  
+
   // 每个 Tab 都有自己的导航键
   final List<GlobalKey<NavigatorState>> _navigatorKeys = [
     GlobalKey<NavigatorState>(),
@@ -53,14 +70,15 @@ class _IOSTabBarDemoState extends State<IOSTabBarDemo> {
     return WillPopScope(
       onWillPop: () async {
         // 处理返回按钮：让当前 Tab 的导航栈处理返回
-        final isFirstRouteInCurrentTab = 
-            !await _navigatorKeys[_currentIndex].currentState!.maybePop();
-        
+        final isFirstRouteInCurrentTab = !await _navigatorKeys[_currentIndex]
+            .currentState!
+            .maybePop();
+
         // 如果是当前 Tab 的根页面，再退出 App
         if (isFirstRouteInCurrentTab) {
-          return true;  // 退出 App
+          return true; // 退出 App
         }
-        return false;  // 已经处理了返回
+        return false; // 已经处理了返回
       },
       child: Scaffold(
         body: Stack(
@@ -80,18 +98,9 @@ class _IOSTabBarDemoState extends State<IOSTabBarDemo> {
           },
           type: BottomNavigationBarType.fixed,
           items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: '首页',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.explore),
-              label: '发现',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: '我的',
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'.tr()),
+            BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'explore'.tr()),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'profile'.tr()),
           ],
         ),
       ),
