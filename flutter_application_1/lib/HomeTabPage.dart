@@ -30,8 +30,9 @@ class HomeTabPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
+                    settings: RouteSettings(name: 'HomeDetailPage'),
                     builder: (context) => HomeDetailPage(itemId: index),
-                    //全屏对话框样式（iOS 从底部弹出） 相当于present
+                    //全屏对话框样式（iOS 从底部弹出） 相当于present, 默认返回按钮是关闭图标，一般返回按钮是箭头图标
                     fullscreenDialog: true
                   ),
                 );
@@ -94,6 +95,19 @@ class HomeSubDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('子详情页'),
+        //重写了返回按钮，默认是箭头图标，重写后变成了返回图标，需要自己实现返回逻辑
+        leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          // 自定义返回逻辑
+          // 返回上一层
+          // Navigator.pop(context);
+          // 回根page
+          // Navigator.popUntil(context, (route) => route.isFirst); 
+          // 回到特定page, 需要在push时设置RouteSettings(name: 'HomeDetailPage')
+          Navigator.popUntil(context, (route) => route.settings.name == 'HomeDetailPage'); 
+        },
+      ),
       ),
       body: Center(
         child: Text('这是更深一层的详情页'),

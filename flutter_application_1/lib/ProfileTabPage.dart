@@ -89,7 +89,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 获取参数
-    final args = ModalRoute.of(context)!.settings.arguments as ProfileInfo;
+    //final args = ModalRoute.of(context)!.settings.arguments as ProfileInfo;
     return Scaffold(
       appBar: AppBar(title: Text('设置')),
       body: ListView(
