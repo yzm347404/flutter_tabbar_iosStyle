@@ -50,6 +50,7 @@ class ProfileTabPage extends StatelessWidget {
             },
           ),
           ListTile(
+            contentPadding: EdgeInsets.zero,
             leading: Icon(Icons.favorite),
             title: Text('收藏'),
             trailing: Icon(Icons.arrow_forward),
