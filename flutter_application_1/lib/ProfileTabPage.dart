@@ -1,11 +1,53 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/EventBusService.dart';
 
 // 我的 Tab
-class ProfileTabPage extends StatelessWidget {
+class ProfileTabPage extends StatefulWidget {
+  const ProfileTabPage({super.key});
+
+  @override
+  _ProfileTabPageState createState() => _ProfileTabPageState();
+}
+
+class _ProfileTabPageState extends State<ProfileTabPage> {
+  /*
+  late 关键字
+  告诉编译器："这个变量会稍后被初始化，我保证在使用前赋值"
+  变量必须有值（非空），只是初始化延迟了
+  如果使用前没赋值，运行时会报错
+
+  可选类型（?）
+  表示变量可以为 null
+  是类型系统的一部分，告诉编译器："这个变量可能没有值"
+  使用前需要判空处理
+ */
+  late StreamSubscription _logoutSubscription;
+  String? _username;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // 监听登出事件
+    _logoutSubscription = EventBusService.instance.on<LogoutEvent>().listen((event) {
+      setState(() {
+        _username = event.username; // 更新用户名显示
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    // 取消订阅（类似 iOS 的 removeObserver）
+    _logoutSubscription.cancel();
+    super.dispose();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('我的')),
+      appBar: AppBar(title: Text(_username ?? '我的')),
       body: ListView(
         children: [
           ListTile(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/EventBusService.dart';
 // 首页 Tab
 class HomeTabPage extends StatelessWidget {
   const HomeTabPage({super.key});
@@ -100,6 +101,9 @@ class HomeSubDetailPage extends StatelessWidget {
         icon: Icon(Icons.arrow_back),
         onPressed: () {
           // 自定义返回逻辑
+          // 发送登出事件，触发登录页面
+          EventBusService.instance.fire(LogoutEvent("123",'John')); 
+
           // 返回上一层
           // Navigator.pop(context);
           // 回根page
