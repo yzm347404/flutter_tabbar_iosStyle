@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './ExploreTabPage.dart';
 import './HomeTabPage.dart';
 import './ProfileTabPage.dart';
+import './Splash.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
       //配置路由别名，但这个就是根navigator了，跟各自tab里面的navigator不是同一个
       routes: {
         "/profileDetail": (context) => ProfileDetailPage(),
+        "/main": (context) => IOSTabBarDemo(),
       },//配置路由
       title: 'iOS 风格 TabBar',
       theme: ThemeData(primarySwatch: Colors.blue),
@@ -21,7 +23,11 @@ class MyApp extends StatelessWidget {
       个人建议如果有了个字的navigator就不需要配置根navigator了，但是
       个字路由的话传参不是很好传，参数都需要挂在init方法里面
       */
-      home: IOSTabBarDemo(),
+      home: Builder(
+        builder: (context) => SplashPage(
+          onPressed: () => Navigator.of(context).pushReplacementNamed("/main"),
+        ),
+      ),
     );
   }
 }
