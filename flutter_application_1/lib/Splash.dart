@@ -67,7 +67,7 @@ class SplashPage extends StatelessWidget {
               Flutter这套资源匹配机制确实有点绕，主要就是围绕着“1倍图作为查找入口”这个核心逻辑
               */
               child: Image.asset(
-                'assets/images/2.0x/my_icon.png',   
+                'assets/images/icons/general_btn_previous_nor.png',   
                 width: 180,
                 height: 50,
                 fit: BoxFit.contain,
