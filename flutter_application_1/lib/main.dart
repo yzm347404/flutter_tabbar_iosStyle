@@ -5,7 +5,6 @@ import './ProfileTabPage.dart';
 import './Splash.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_application_1/MultiNetworkAssetLoader.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
