@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/EventBusService.dart';
+import 'package:flutter/services.dart';
+
 // 首页 Tab
 class HomeTabPage extends StatelessWidget {
   const HomeTabPage({super.key});
@@ -85,11 +87,33 @@ class HomeDetailPage extends StatelessWidget {
   }
 }
 
-// 子详情页
-class HomeSubDetailPage extends StatelessWidget {
+class HomeSubDetailPage extends StatefulWidget {
   final int itemId;
   
   HomeSubDetailPage({required this.itemId});
+
+  @override
+  _HomeSubDetailPageState createState() => _HomeSubDetailPageState();
+}
+
+class _HomeSubDetailPageState extends State<HomeSubDetailPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    // 2. 进入页面时，强制开启横屏（允许左右横屏）
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    // 3. 退出页面时，恢复为竖屏
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
