@@ -32,6 +32,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //easy_localization 必须添加这三行，不然无法使用 tr() 方法进行翻译
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       //配置路由别名，但这个就是根navigator了，跟各自tab里面的navigator不是同一个
       routes: {
         "/profileDetail": (context) => ProfileDetailPage(),
