@@ -65,18 +65,19 @@ class _ProfileTabPageState extends State<ProfileTabPage> {
               获取最顶层的 Navigator
               final rootNavigator = Navigator.of(context, rootNavigator: true);
               */
-              //直接使用Navigator是tab中的Navigator
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => ProfileDetailPage(),
-              //   ),
-              // );
-              ///别名路由需要使用根navigator
-              Navigator.of(
+              //直接使用Navigator是tab中的Navigator，可以保持tabar
+              Navigator.push(
                 context,
-                rootNavigator: true,
-              ).pushNamed('/profileDetail');
+                MaterialPageRoute(
+                  builder: (context) => ProfileDetailPage(),
+                ),
+              );
+
+              ///别名路由需要使用根navigator，那么就吧tabar遮住了，如果要现实，那么只能使用分别的navigator
+              // Navigator.of(
+              //   context,
+              //   rootNavigator: true,
+              // ).pushNamed('/profileDetail');
             },
           ),
           Divider(),
