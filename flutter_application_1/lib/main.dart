@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import './ExploreTabPage.dart';
 import './HomeTabPage.dart';
 import './ProfileTabPage.dart';
@@ -6,6 +7,8 @@ import './Splash.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_application_1/MultiNetworkAssetLoader.dart';
 import 'package:flutter/services.dart';
+import './provider/NewsItemModel.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
@@ -31,25 +34,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      //easy_localization 必须添加这三行，不然无法使用 tr() 方法进行翻译
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      //配置路由别名，但这个就是根navigator了，跟各自tab里面的navigator不是同一个
-      routes: {
-        "/profileDetail": (context) => ProfileDetailPage(),
-        "/main": (context) => IOSTabBarDemo(),
-      }, //配置路由
-      title: 'iOS 风格 TabBar',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      /*这个用于配置每个tab一个navigator，这个会跟initialroute冲突，
+    //创建providers
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (context) => NewsItemModel())],
+      child: MaterialApp(
+        //easy_localization 必须添加这三行，不然无法使用 tr() 方法进行翻译
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        //配置路由别名，但这个就是根navigator了，跟各自tab里面的navigator不是同一个
+        routes: {
+          "/profileDetail": (context) => ProfileDetailPage(),
+          "/main": (context) => IOSTabBarDemo(),
+        }, //配置路由
+        title: 'iOS 风格 TabBar',
+        theme: ThemeData(primarySwatch: Colors.blue),
+        /*这个用于配置每个tab一个navigator，这个会跟initialroute冲突，
       个人建议如果有了个字的navigator就不需要配置根navigator了，但是
       个字路由的话传参不是很好传，参数都需要挂在init方法里面
       */
-      home: Builder(
-        builder: (context) => SplashPage(
-          onPressed: () => Navigator.of(context).pushReplacementNamed("/main"),
+        home: Builder(
+          builder: (context) => SplashPage(
+            onPressed: () =>
+                Navigator.of(context).pushReplacementNamed("/main"),
+          ),
         ),
       ),
     );
@@ -106,8 +114,14 @@ class _IOSTabBarDemoState extends State<IOSTabBarDemo> {
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'.tr()),
-            BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'explore'.tr()),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'profile'.tr()),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.explore),
+              label: 'explore'.tr(),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'profile'.tr(),
+            ),
           ],
         ),
       ),

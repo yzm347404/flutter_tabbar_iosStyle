@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/EventBusService.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/provider/NewsItemModel.dart';
+import 'package:provider/provider.dart';
 
 // 首页 Tab
 class HomeTabPage extends StatelessWidget {
@@ -9,16 +11,38 @@ class HomeTabPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //使用最简单获取模型数据，监听数据变化，自动更新UI
+    final title = Provider.of<NewsItemModel>(context).title;
     return Scaffold(
       appBar: AppBar(
-        title: Text('首页'),
-        actions: [IconButton(icon: Icon(Icons.search), onPressed: () {})],
+        title: Text(title != null ? '点击了 $title' : '首页'),
+        leading: IconButton(
+          onPressed: () => {
+            // 自定义返回逻辑
+            // 发送登出事件，触发登录页面
+            EventBusService.instance.fire(LogoutEvent("123", 'John')),
+          },
+          icon: Icon(Icons.login),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.language),
+            onPressed: () {
+              // 切换
+              if (context.locale == Locale('zh')) {
+                context.setLocale(Locale('en'));
+              } else {
+                context.setLocale(Locale('zh'));
+              }
+            },
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: 20,
         itemBuilder: (context, index) {
           return Card(
-            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: ListTile(
               leading: CircleAvatar(
                 child: Text('${index + 1}'),
@@ -26,17 +50,13 @@ class HomeTabPage extends StatelessWidget {
                     Colors.primaries[index % Colors.primaries.length],
               ),
               title: Text('新闻标题 $index'),
-              subtitle: Text('点击查看详情'),
+              subtitle: Text('这是第 $index 项的详情-provider'),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
-                if (index == 0) {
-                  // 切换
-                  if (context.locale == Locale('zh')) {
-                    context.setLocale(Locale('en'));
-                  } else {
-                    context.setLocale(Locale('zh'));
-                  }
-                }
+                Provider.of<NewsItemModel>(context, listen: false).updateNews(
+                  newTitle: '新闻标题 $index',
+                  newDescription: '这是第 $index 项的详情-provider',
+                );
                 // 在当前 Tab 的导航栈中推入新页面
                 Navigator.push(
                   context,
@@ -65,12 +85,22 @@ class HomeDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('详情页33 $itemId')),
+      appBar: AppBar(
+        //使用 Selector 监听模型数据特定属性变化，自动更新标题，局部更新
+        title: Selector<NewsItemModel, String>(
+          builder: (context, title, child) => Text(title),
+          selector: (context, model) => model.title ?? '',
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('这是第 $itemId 项的详情', style: TextStyle(fontSize: 20)),
+            // 使用 Consumer 监听模型数据变化，自动更新描述，局部更新
+            Consumer<NewsItemModel>(
+              builder: (context, model, child) =>
+                  Text(model.description ?? '', style: TextStyle(fontSize: 20)),
+            ),
             SizedBox(height: 20),
             ElevatedButton(
               child: Text('进入子详情'),
@@ -126,10 +156,6 @@ class _HomeSubDetailPageState extends State<HomeSubDetailPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            // 自定义返回逻辑
-            // 发送登出事件，触发登录页面
-            EventBusService.instance.fire(LogoutEvent("123", 'John'));
-
             // 返回上一层
             // Navigator.pop(context);
             // 回根page
