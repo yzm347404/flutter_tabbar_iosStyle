@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/EventBusService.dart';
+import './UIPage.dart';
 /*
 setState vs ValueNotifier + ValueListenableBuilder 详细对比
 
@@ -44,6 +45,19 @@ class _ExploreTabPageState extends State<ExploreTabPage> {
         title: ValueListenableBuilder(valueListenable: _titleNotifier, builder: (context, title, child) {
           return Text(title);
         }),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UIPage(),
+                ),
+              );
+            },
+          )
+        ],
       ),
       body: GridView.builder(
         padding: EdgeInsets.all(8),
