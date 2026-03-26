@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import './CustomTitle.dart';
 /*
 1. 核心原理：Stack 的宽高如何决定？
 
@@ -18,12 +18,23 @@ Stack 的大小计算规则依赖于它的两个属性：fit 和 clipBehavior，
 那么 Stack 会试图变得尽可能小，除非父组件强制它变大。
  */
 
+
 class UIPage extends StatefulWidget {
   @override
   _UIPageState createState() => _UIPageState();
 }
 
 class _UIPageState extends State<UIPage> {
+  final List<String> items = List.generate(50, (index) => 'Item $index');
+
+  Widget itemBuilder(BuildContext context, int index) {
+    return CustomTitle(
+      key: Key('$index'),
+      title: items[index],
+      onPressed: (title) => {print('点击了 ${items[index]},title=$title')},
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +43,7 @@ class _UIPageState extends State<UIPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 10,
+          spacing: 20,
           children: [
             Container(
               width: 100,
@@ -44,14 +55,14 @@ class _UIPageState extends State<UIPage> {
                   Positioned(
                     top: 20,
                     left: 20,
-                    child: Container(width: 50, height: 50, color: Colors.red),
+                    child: Container(width: 40, height: 40, color: Colors.red),
                   ),
                   Positioned(
-                    bottom: -20,
-                    right: -20,
+                    bottom: -10,
+                    right: -10,
                     child: Container(
-                      width: 50,
-                      height: 50,
+                      width: 40,
+                      height: 40,
                       color: Colors.green,
                     ),
                   ),
@@ -67,17 +78,13 @@ class _UIPageState extends State<UIPage> {
                 children: [
                   Align(
                     alignment: Alignment.topLeft,
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      color: Colors.red,
-                    ),
+                    child: Container(width: 40, height: 40, color: Colors.red),
                   ),
                   Align(
                     alignment: Alignment.topRight,
                     child: Container(
-                      width: 50,
-                      height: 50,
+                      width: 40,
+                      height: 40,
                       color: Colors.yellow,
                       child: Container(
                         width: 50,
@@ -87,6 +94,84 @@ class _UIPageState extends State<UIPage> {
                     ),
                   ),
                 ],
+              ),
+            ),
+            Container(
+              width: 300,
+              height: 200,
+              color: Colors.purple,
+              child: Wrap(
+                direction: Axis.horizontal,
+                //列间距
+                spacing: 20,
+                //行间距
+                runSpacing: 30,
+                children: [
+                  Container(
+                    width: 100,
+                    height: 30,
+                    color: Colors.green,
+                    padding: EdgeInsets.all(2),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue, // 背景色
+                        foregroundColor: Colors.yellow, // 字体颜色
+                        textStyle: TextStyle(
+                          fontSize: 18, // 字体大小
+                          fontWeight: FontWeight.bold, // 字体粗细
+                        ),
+                      ),
+                      onPressed: () {
+                        debugPrint('按钮被点击');
+                        // 处理点击事件
+                      },
+                      child: Text('点击'),
+                    ),
+                  ),
+                  Container(
+                    width: 100,
+                    height: 30,
+                    color: Colors.green,
+                    padding: EdgeInsets.all(2),
+                    child: TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all<Color>(
+                          Colors.red,
+                        ),
+                        foregroundColor: WidgetStateProperty.all<Color>(
+                          Colors.yellow,
+                        ),
+                      ),
+                      onPressed: () {
+                        debugPrint('按钮被点击');
+                        // 处理点击事件
+                      },
+                      child: Text('点击我'),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      debugPrint('GestureDetector 被点击');
+                    },
+                    child: Container(
+                      width: 100,
+                      height: 30,
+                      color: Colors.yellow,
+                    ),
+                  ),
+                  Image.asset(
+                    "assets/images/icons/general_btn_previous_nor.png",
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 300,
+              height: 185,
+              color: Colors.pink,
+              child: ListView.builder(
+                itemBuilder: itemBuilder,
+                itemCount: items.length,
               ),
             ),
           ],

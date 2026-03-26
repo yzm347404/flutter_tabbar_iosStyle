@@ -29,7 +29,7 @@ class ExploreTabPage extends StatefulWidget {
 }
 
 class _ExploreTabPageState extends State<ExploreTabPage> {
-  static final _titleNotifier = ValueNotifier<String>('发现');
+  final _titleNotifier = ValueNotifier<String>('发现');
 
   @override
   void dispose() {
