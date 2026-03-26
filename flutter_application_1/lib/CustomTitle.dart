@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-typedef CustomTitleOnTapAction = Function(String title);
+typedef CustomTitleOnTapAction = void Function(String title);
 
 class CustomTitle extends StatefulWidget {
   final String title;
@@ -62,13 +62,13 @@ build()  ← 第一次构建
   @override
   void initState() {
     super.initState();
-    print('1. initState - 状态初始化');
+    debugPrint('1. initState - 状态初始化');
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print('2. didChangeDependencies - 依赖变化（可能多次调用）');
+    debugPrint('2. didChangeDependencies - 依赖变化（可能多次调用）');
   }
 
   /*
@@ -82,24 +82,24 @@ build()  ← 第一次构建
   @override
   void didUpdateWidget(covariant CustomTitle oldWidget) { 
     super.didUpdateWidget(oldWidget);
-    print('3. didUpdateWidget - Widget 配置更新');
+    debugPrint('3. didUpdateWidget - Widget 配置更新');
   }
 
   @override
   void deactivate() {
     super.deactivate();
-    print('5. deactivate - 从树中移除（可能重新插入）');
+    debugPrint('5. deactivate - 从树中移除（可能重新插入）');
   }
   
     @override
   void dispose() {
-    print('6. dispose - 永久销毁');
+    debugPrint('6. dispose - 永久销毁');
     selectedNotifier.dispose();
     super.dispose();
   }
   @override
   Widget build(BuildContext context) {
-     print('4. build - 构建 UI');
+     debugPrint('4. build - 构建 UI');
     return GestureDetector(
       onTap: () {
         if (widget.onPressed != null) {
