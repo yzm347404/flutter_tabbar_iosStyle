@@ -32,11 +32,18 @@ dependencies:
     sdk: flutter
   http: ^1.1.0  
   dio: ^5.4.0
+  #国际化
   easy_localization: ^3.0.0
+  #图片缓存
   cached_network_image: ^3.2.3
+  #全局通知
   event_bus: ^2.0.0
+  #跨组件通信，局部刷新
   provider: ^6.0.5
+  #精准定位列表位置
   scrollable_positioned_list: ^0.3.8
+  #上下拉加载
+  easy_refresh: ^3.0.0 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

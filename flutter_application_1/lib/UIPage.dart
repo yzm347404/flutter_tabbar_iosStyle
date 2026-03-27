@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './CustomTitle.dart';
 import './UIScrollerPage.dart';
+import './UIRefreshListPage.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 /*
 1. 核心原理：Stack 的宽高如何决定？
@@ -177,7 +178,7 @@ class _UIPageState extends State<UIPage> {
                   ),
                   Container(
                     width: 100,
-                    height: 30,
+                    height: 40,
                     color: Colors.green,
                     padding: EdgeInsets.all(2),
                     child: TextButton(
@@ -192,8 +193,11 @@ class _UIPageState extends State<UIPage> {
                       onPressed: () {
                         debugPrint('按钮被点击');
                         // 处理点击事件
+                        Navigator.push(context, MaterialPageRoute(
+                          settings: RouteSettings(name: 'UIRefreshListPage'),
+                          builder: (context) => UIRefreshListPage()));
                       },
-                      child: Text('点击我'),
+                      child: Text('to refresh list'),
                     ),
                   ),
                   GestureDetector(
