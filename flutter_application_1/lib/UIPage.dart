@@ -26,6 +26,15 @@ Stack 的大小计算规则依赖于它的两个属性：fit 和 clipBehavior，
 而scrollable_positioned_list则是通过监听item的位置来实现滚动的，所以不会存在这个问题。
 */
 
+/*
+特性	                         SizedBox.expand	                                Expanded
+父组件要求	                        任何组件	                              必须是 Row、Column 或 Flex
+作用	                            占满父组件的全部空间	                     填充父组件的剩余空间
+多个子组件	                       只能有一个子组件	                         可以有多个，按 flex 分配
+等效代码	          width: double.infinity, height: double.infinity	      自动计算剩余空间
+常见用途	                        让子组件填充父组件	                       让子组件等比例缩放，让子组件铺满整个区域	在 Row/Column 中让某个组件撑开
+*/
+
 class UIPage extends StatefulWidget {
   @override
   _UIPageState createState() => _UIPageState();
