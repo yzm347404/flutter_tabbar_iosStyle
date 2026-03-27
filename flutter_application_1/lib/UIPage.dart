@@ -26,12 +26,18 @@ class UIPage extends StatefulWidget {
 
 class _UIPageState extends State<UIPage> {
   final List<String> items = List.generate(50, (index) => 'Item $index');
+  final ScrollController _scrollController = ScrollController();
 
   Widget itemBuilder(BuildContext context, int index) {
     return CustomTitle(
       key: Key('$index'),
       title: items[index],
-      onPressed: (title) => {print('点击了 ${items[index]},title=$title')},
+      onPressed: (title)  {print('点击了 ${items[index]},title=$title');
+      _scrollController.animateTo(
+          index * 50.0, // 假设每个 item 高度为 50
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );},
     );
   }
 
@@ -170,6 +176,7 @@ class _UIPageState extends State<UIPage> {
               height: 185,
               color: Colors.pink,
               child: ListView.builder(
+                controller: _scrollController,
                 itemBuilder: itemBuilder,
                 itemCount: items.length,
               ),
